@@ -1,3 +1,4 @@
+require("dotenv/config");
 var createError = require('http-errors');
 var express = require('express');
 var bodyParser  =     require('body-parser');
@@ -17,20 +18,19 @@ var PORT = process.env.PORT || 3000;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use( express.static( "public" ) );
-app.use(bodyParser.json());                        
-app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect("mongodb://Aadish09:QWERTY1234@ds123971.mlab.com:23971/tbc",{ useNewUrlParser: true});
 app.use(require("express-session")({
     secret:"This is Aadish's",
     resave:false,
     saveUninitialized:false
-    
+
 }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.disable('etag');
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
